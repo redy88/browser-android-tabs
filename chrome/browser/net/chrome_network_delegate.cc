@@ -193,6 +193,7 @@ ChromeNetworkDelegate::ChromeNetworkDelegate(
       enable_httpse_(nullptr),
       enable_tracking_protection_(nullptr),
       enable_ad_block_(nullptr),
+      enable_ad_block_regional_(nullptr),
       experimental_web_platform_features_enabled_(
           base::CommandLine::ForCurrentProcess()->HasSwitch(
               switches::kEnableExperimentalWebPlatformFeatures)) {}
@@ -218,7 +219,8 @@ void ChromeNetworkDelegate::set_cookie_settings(
 void ChromeNetworkDelegate::InitializePrefsOnUIThread(
     BooleanPrefMember* enable_httpse,
     BooleanPrefMember* enable_tracking_protection,
-    BooleanPrefMember* enable_ad_block
+    BooleanPrefMember* enable_ad_block,
+    BooleanPrefMember* enable_ad_block_regional,
     PrefService* pref_service) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
   if (enable_httpse) {
@@ -234,6 +236,11 @@ void ChromeNetworkDelegate::InitializePrefsOnUIThread(
   if (enable_ad_block) {
     enable_ad_block->Init(prefs::kAdBlockEnabled, pref_service);
     enable_ad_block->MoveToThread(
+        BrowserThread::GetTaskRunnerForThread(BrowserThread::IO));
+  }
+  if (enable_ad_block_regional) {
+    enable_ad_block_regional->Init(prefs::kAdBlockRegionalEnabled, pref_service);
+    enable_ad_block_regional->MoveToThread(
         BrowserThread::GetTaskRunnerForThread(BrowserThread::IO));
   }
 }
@@ -317,6 +324,11 @@ int ChromeNetworkDelegate::OnBeforeURLRequest(
   if (enable_ad_block_ && !shieldsSetExplicitly) {
     isAdBlockEnabled = enable_ad_block_->GetValue();
   }
+  // Regional ad block flag
+  bool isAdBlockRegionalEnabled = true;
+  if (enable_ad_block_regional_ && !shieldsSetExplicitly) {
+    isAdBlockRegionalEnabled = enable_ad_block_regional_->GetValue();
+  }
 	const ResourceRequestInfo* info = ResourceRequestInfo::ForRequest(request);
 	if (!block
       && !firstPartyUrl
@@ -329,7 +341,8 @@ int ChromeNetworkDelegate::OnBeforeURLRequest(
 			&& blockers_worker_.shouldAdBlockUrl(
 					firstparty_host,
 					request->url().spec(),
-					(unsigned int)info->GetResourceType())) {
+					(unsigned int)info->GetResourceType(),
+          isAdBlockRegionalEnabled)) {
 		block = true;
     adsAndTrackersBlocked++;
 	}
