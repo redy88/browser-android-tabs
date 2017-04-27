@@ -289,7 +289,7 @@ int ChromeNetworkDelegate::OnBeforeURLRequest(
         }
       }
   } else if (nullptr == shieldsConfig){
-      isGlobalBlockEnabled = true;
+      isGlobalBlockEnabled = false;
   }
   bool isValidUrl = true;
   if (request) {
