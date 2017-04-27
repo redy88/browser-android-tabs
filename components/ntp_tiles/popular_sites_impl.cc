@@ -214,7 +214,7 @@ void SetDefaultResourceForSite(int index,
 #endif
 
 // Creates the list of popular sites based on a snapshot available for mobile.
-std::unique_ptr<base::ListValue> DefaultPopularSites() {
+/*std::unique_ptr<base::ListValue> DefaultPopularSites() {
 #if !defined(OS_ANDROID) && !defined(OS_IOS)
   return std::make_unique<base::ListValue>();
 #else
@@ -242,7 +242,7 @@ std::unique_ptr<base::ListValue> DefaultPopularSites() {
 #endif  // GOOGLE_CHROME_BUILD
   return sites;
 #endif  // OS_ANDROID || OS_IOS
-}
+}*/
 
 }  // namespace
 
@@ -420,8 +420,8 @@ void PopularSitesImpl::RegisterProfilePrefs(
 
   user_prefs->RegisterInt64Pref(prefs::kPopularSitesLastDownloadPref, 0);
   user_prefs->RegisterStringPref(prefs::kPopularSitesURLPref, std::string());
-  user_prefs->RegisterListPref(prefs::kPopularSitesJsonPref,
-                               DefaultPopularSites());
+  user_prefs->RegisterListPref(prefs::kPopularSitesJsonPref/*,
+                               DefaultPopularSites()*/);
   int version;
   base::StringToInt(kPopularSitesDefaultVersion, &version);
   user_prefs->RegisterIntegerPref(prefs::kPopularSitesVersionPref, version);
