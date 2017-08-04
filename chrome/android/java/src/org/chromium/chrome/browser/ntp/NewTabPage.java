@@ -427,6 +427,7 @@ public class NewTabPage
 
     private void updateSearchProviderHasLogo() {
         mSearchProviderHasLogo = TemplateUrlService.getInstance().doesDefaultSearchEngineHaveLogo();
+        mSearchProviderHasLogo = false;//TemplateUrlService.getInstance().doesDefaultSearchEngineHaveLogo();
     }
 
     private void onSearchEngineUpdated() {
