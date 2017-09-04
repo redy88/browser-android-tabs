@@ -169,8 +169,8 @@ public class PrivacyPreferences extends PreferenceFragment
 
         ChromeBaseCheckBoxPreference sendMetricsPref =
                 (ChromeBaseCheckBoxPreference) findPreference(PREF_SEND_METRICS);
-        trackingProtectionPref.setOnPreferenceChangeListener(this);
-        trackingProtectionPref.setManagedPreferenceDelegate(mManagedPreferenceDelegate);
+        sendMetricsPref.setOnPreferenceChangeListener(this);
+        sendMetricsPref.setManagedPreferenceDelegate(mManagedPreferenceDelegate);
 
         updateSummaries();
     }
