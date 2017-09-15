@@ -129,6 +129,9 @@ enum ContentSettingsType {
   // Used to store whether to allow a website to detect user active/idle state.
   CONTENT_SETTINGS_TYPE_IDLE_DETECTION,
 
+  // This content setting type is for displaying desktop version of the website
+  CONTENT_SETTINGS_TYPE_DESKTOP_VIEW,
+
   CONTENT_SETTINGS_NUM_TYPES,
 };
 
