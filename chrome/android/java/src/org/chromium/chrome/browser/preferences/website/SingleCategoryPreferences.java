@@ -468,6 +468,10 @@ public class SingleCategoryPreferences extends PreferenceFragment
                 break;
             }
 
+           if (mCategory.showDesktopViewSites()) {
+                PrefServiceBridge.getInstance().setDesktopViewEnabled((boolean) newValue);
+            }
+
             // Categories that support adding exceptions also manage the 'Add site' preference.
             // This should only be used for settings that have host-pattern based exceptions.
             if (mCategory.showSites(SiteSettingsCategory.Type.AUTOPLAY)
@@ -950,6 +954,9 @@ public class SingleCategoryPreferences extends PreferenceFragment
                     LocationSettings.getInstance().isChromeLocationSettingEnabled());
         } else {
             binaryToggle.setChecked(PrefServiceBridge.getInstance().isCategoryEnabled(contentType));
+            if (mCategory.showDesktopViewSites()) {
+                binaryToggle.setChecked(PrefServiceBridge.getInstance().desktopViewEnabled());
+            }
         }
     }
 
