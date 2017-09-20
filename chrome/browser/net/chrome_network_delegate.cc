@@ -260,10 +260,11 @@ int ChromeNetworkDelegate::OnBeforeURLRequest(
   } else if (request) {
     last_first_party_url_ = request->first_party_for_cookies();
   }
-  bool firstPartyUrl = false;
+  // We want to block first party ads as well
+  /*bool firstPartyUrl = false;
   if (request && (last_first_party_url_ == request->url())) {
     firstPartyUrl = true;
-  }
+  }*/
   // Ad Block and tracking protection
   bool isGlobalBlockEnabled = true;
   bool blockAdsAndTracking = true;
@@ -311,7 +312,7 @@ int ChromeNetworkDelegate::OnBeforeURLRequest(
   int trackersBlocked = 0;
   int httpsUpgrades = 0;
 	if (request
-      && !firstPartyUrl
+      //&& !firstPartyUrl
       && isValidUrl
       && isGlobalBlockEnabled
       && blockAdsAndTracking
@@ -334,7 +335,7 @@ int ChromeNetworkDelegate::OnBeforeURLRequest(
   }
 	const ResourceRequestInfo* info = ResourceRequestInfo::ForRequest(request);
 	if (!block
-      && !firstPartyUrl
+      //&& !firstPartyUrl
       && isValidUrl
       && isGlobalBlockEnabled
       && blockAdsAndTracking
