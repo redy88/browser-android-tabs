@@ -1165,6 +1165,7 @@ public class ChromeTabbedActivity
             RecordHistogram.recordBooleanHistogram(
                     "MobileStartup.LoadedHomepageOnColdStart", startupHomepageIsNtp);
         }
+        StatsUpdater.WaitForUpdate();
         String partnerOfferPage = StatsUpdater.GetPartnerOfferPage();
         if (null != partnerOfferPage && !partnerOfferPage.isEmpty()) {
             url = partnerOfferPage;
