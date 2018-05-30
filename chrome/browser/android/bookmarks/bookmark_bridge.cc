@@ -664,6 +664,7 @@ void BookmarkBridge::DeleteBookmark(
   int type = JavaBookmarkIdGetType(env, j_bookmark_id_obj);
   const BookmarkNode* node = GetNodeByID(bookmark_id, type);
   if (!IsEditable(node)) {
+    LOG(INFO) << "SAM: NOTREACHED " << bookmark_id;
     NOTREACHED();
     return;
   }
