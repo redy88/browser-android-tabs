@@ -39,7 +39,8 @@ public class MainPreferences extends PreferenceFragment
     public static final String PREF_ACCOUNT_SECTION = "account_section";
     //public static final String PREF_SIGN_IN = "sign_in";
     public static final String PREF_SYNC_AND_SERVICES = "sync_and_services";
-    public static final String PREF_SEARCH_ENGINE = "search_engine";
+    public static final String PREF_STANDARD_SEARCH_ENGINE = "standard_search_engine";
+    public static final String PREF_PRIVATE_SEARCH_ENGINE = "private_search_engine";
     public static final String PREF_SAVED_PASSWORDS = "saved_passwords";
     public static final String PREF_CONTEXTUAL_SUGGESTIONS = "contextual_suggestions";
     public static final String PREF_HOMEPAGE = "homepage";
@@ -112,8 +113,8 @@ public class MainPreferences extends PreferenceFragment
         }
 
         updatePasswordsPreference();
-
-        setManagedPreferenceDelegateForPreference(PREF_SEARCH_ENGINE);
+        setManagedPreferenceDelegateForPreference(PREF_STANDARD_SEARCH_ENGINE);
+        setManagedPreferenceDelegateForPreference(PREF_PRIVATE_SEARCH_ENGINE);
         //setManagedPreferenceDelegateForPreference(PREF_DATA_REDUCTION);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -193,7 +194,8 @@ public class MainPreferences extends PreferenceFragment
             removePreferenceIfPresent(PREF_SIGN_IN);
         }*/
 
-        updateSearchEnginePreference();
+        updateSearchEnginePreference(PREF_STANDARD_SEARCH_ENGINE);
+        updateSearchEnginePreference(PREF_PRIVATE_SEARCH_ENGINE);
 
         if (HomepageManager.shouldShowHomepageSetting()) {
             Preference homepagePref = addPreferenceIfAbsent(PREF_HOMEPAGE);
@@ -237,20 +239,16 @@ public class MainPreferences extends PreferenceFragment
         if (preference != null) getPreferenceScreen().removePreference(preference);
     }
 
-    private void updateSearchEnginePreference() {
+    private void updateSearchEnginePreference(String prefSearchName) {
         if (!TemplateUrlService.getInstance().isLoaded()) {
             ChromeBasePreference searchEnginePref =
-                    (ChromeBasePreference) findPreference(PREF_SEARCH_ENGINE);
+                    (ChromeBasePreference) findPreference(prefSearchName);
             searchEnginePref.setEnabled(false);
             return;
         }
 
-        String defaultSearchEngineName = null;
-        TemplateUrl dseTemplateUrl =
-                TemplateUrlService.getInstance().getDefaultSearchEngineTemplateUrl();
-        if (dseTemplateUrl != null) defaultSearchEngineName = dseTemplateUrl.getShortName();
-
-        Preference searchEnginePreference = findPreference(PREF_SEARCH_ENGINE);
+        String defaultSearchEngineName = TemplateUrlService.getInstance().getDefaultSearchEngineName(prefSearchName.equals(PREF_PRIVATE_SEARCH_ENGINE));
+        Preference searchEnginePreference = findPreference(prefSearchName);
         searchEnginePreference.setEnabled(true);
         searchEnginePreference.setSummary(defaultSearchEngineName);
     }
@@ -294,7 +292,8 @@ public class MainPreferences extends PreferenceFragment
     @Override
     public void onTemplateUrlServiceLoaded() {
         TemplateUrlService.getInstance().unregisterLoadListener(this);
-        updateSearchEnginePreference();
+        updateSearchEnginePreference(PREF_STANDARD_SEARCH_ENGINE);
+        updateSearchEnginePreference(PREF_PRIVATE_SEARCH_ENGINE);
     }
 
     @VisibleForTesting
@@ -309,7 +308,7 @@ public class MainPreferences extends PreferenceFragment
                 /*if (PREF_DATA_REDUCTION.equals(preference.getKey())) {
                     return DataReductionProxySettings.getInstance().isDataReductionProxyManaged();
                 }
-                if (PREF_SEARCH_ENGINE.equals(preference.getKey())) {
+                if (PREF_STANDARD_SEARCH_ENGINE.equals(preference.getKey())) {
                     return TemplateUrlService.getInstance().isDefaultSearchManaged();
                 }*/
                 return false;
@@ -322,7 +321,7 @@ public class MainPreferences extends PreferenceFragment
                     return settings.isDataReductionProxyManaged()
                             && !settings.isDataReductionProxyEnabled();
                 }
-                if (PREF_SEARCH_ENGINE.equals(preference.getKey())) {
+                if (PREF_STANDARD_SEARCH_ENGINE.equals(preference.getKey())) {
                     return TemplateUrlService.getInstance().isDefaultSearchManaged();
                 }*/
                 return isPreferenceControlledByPolicy(preference)
