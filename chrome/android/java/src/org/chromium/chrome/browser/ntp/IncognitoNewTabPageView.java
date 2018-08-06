@@ -38,6 +38,7 @@ public class IncognitoNewTabPageView extends HistoryNavigationLayout {
     private int mSnapshotScrollY;
 
     private View mDDGOfferLink;
+    private View mDDGOfferImage;
 
     /**
      * Manages the view interaction with the rest of the system.
@@ -90,6 +91,15 @@ public class IncognitoNewTabPageView extends HistoryNavigationLayout {
                 showDDGOffer(true);
             }
         });
+
+        mDDGOfferImage = findViewById(R.id.ddg_offer_img);
+        mDDGOfferImage.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDDGOffer(true);
+            }
+        });
+
         showDDGOffer(false);
     }
 
@@ -142,6 +152,7 @@ public class IncognitoNewTabPageView extends HistoryNavigationLayout {
     public void showDDGOffer(boolean forceShow) {
         if (TemplateUrlService.getInstance().getDefaultSearchEngineKeyword(true).equals(INCOGNITO_DSE_KEYWORD)) {
             mDDGOfferLink.setVisibility(View.GONE);
+            mDDGOfferImage.setVisibility(View.GONE);
             return;
         }
         if (!forceShow && ContextUtils.getAppSharedPreferences().getBoolean(PREF_DDG_OFFER_SHOWN, false)) {
@@ -155,6 +166,7 @@ public class IncognitoNewTabPageView extends HistoryNavigationLayout {
             public void onClick(DialogInterface dialog, int which) {
                 TemplateUrlService.getInstance().setSearchEngine(INCOGNITO_DSE_NAME, INCOGNITO_DSE_KEYWORD, true);
                 mDDGOfferLink.setVisibility(View.GONE);
+                mDDGOfferImage.setVisibility(View.GONE);
             }
         })
         .setNegativeButton(R.string.ddg_offer_negative, null)
