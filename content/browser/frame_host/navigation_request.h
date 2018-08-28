@@ -351,6 +351,7 @@ class CONTENT_EXPORT NavigationRequest : public NavigationURLLoaderDelegate {
   // renderer process.
   void UpdateCommitNavigationParamsHistory();
 
+<<<<<<< HEAD
   // Called when an ongoing renderer-initiated navigation is aborted.
   // Only used with PerNavigationMojoInterface enabled.
   void OnRendererAbortedNavigation();
@@ -367,6 +368,8 @@ class CONTENT_EXPORT NavigationRequest : public NavigationURLLoaderDelegate {
   // interface disconnection in all cases.
   // Only used with PerNavigationMojoInterface enabled.
   void IgnoreInterfaceDisconnection();
+
+  void ShouldBlockReferrer();
 
   FrameTreeNode* frame_tree_node_;
 
