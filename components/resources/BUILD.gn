@@ -40,7 +40,7 @@ grit("components_resources") {
   }
 
   deps = [
-    ":compressed_about_credits",
+    ":compressed_about_credits"
   ]
 }
 
