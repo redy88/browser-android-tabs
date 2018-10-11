@@ -758,7 +758,7 @@ public class ToolbarManager
                     new ToolbarButtonSlotData(createSearchAccelerator());
             mBottomToolbarCoordinator = new BottomToolbarCoordinator(
                     mActivity.getFullscreenManager(), mActivity.findViewById(R.id.coordinator), 
-                    firstButtonSlot, secondButtonSlot, mActivity);
+                    firstButtonSlot, secondButtonSlot, mActivity, mToolbarModel);
             if (mAppMenuButtonHelper != null) mAppMenuButtonHelper.setMenuShowsFromBottom(true);
         }
     }
