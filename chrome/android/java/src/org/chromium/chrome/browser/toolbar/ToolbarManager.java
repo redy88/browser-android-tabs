@@ -751,33 +751,16 @@ public class ToolbarManager
      * Enable the bottom toolbar.
      */
     public void enableBottomToolbar() {
-        // TODO(amaralp): Move creation of these listeners to bottom toolbar component.
-        final OnClickListener homeButtonListener = v -> {
-            recordBottomToolbarUseForIPH();
-            openHomepage();
-        };
-
-        final OnClickListener searchAcceleratorListener = v -> {
-            recordBottomToolbarUseForIPH();
-            recordOmniboxFocusReason(OmniboxFocusReason.ACCELERATOR_TAP);
-            ACCELERATOR_BUTTON_TAP_ACTION.record();
-            setUrlBarFocus(true);
-        };
-
-        final OnClickListener shareButtonListener = v -> {
-            recordBottomToolbarUseForIPH();
-            boolean isIncognito = false;
-            if (mTabModelSelector != null) {
-                isIncognito = mTabModelSelector.getCurrentTab().isIncognito();
-            }
-            mActivity.onShareMenuItemSelected(false, isIncognito);
-        };
-
-        mBottomToolbarCoordinator = new BottomToolbarCoordinator(mActivity.getFullscreenManager(),
-                mActivity.findViewById(R.id.bottom_toolbar_stub),
-                mActivity.getActivityTabProvider(), homeButtonListener, searchAcceleratorListener,
-                shareButtonListener);
-        if (mAppMenuButtonHelper != null) mAppMenuButtonHelper.setMenuShowsFromBottom(true);
+        if (FeatureUtilities.isBottomToolbarEnabled()) {
+            final ToolbarButtonSlotData firstButtonSlot =
+                    new ToolbarButtonSlotData(createHomeButton());
+            final ToolbarButtonSlotData secondButtonSlot =
+                    new ToolbarButtonSlotData(createSearchAccelerator());
+            mBottomToolbarCoordinator = new BottomToolbarCoordinator(
+                    mActivity.getFullscreenManager(), mActivity.findViewById(R.id.coordinator), 
+                    firstButtonSlot, secondButtonSlot, mActivity);
+            if (mAppMenuButtonHelper != null) mAppMenuButtonHelper.setMenuShowsFromBottom(true);
+        }
     }
 
     /** Record that homepage button was used for IPH reasons */
