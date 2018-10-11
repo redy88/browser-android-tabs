@@ -169,6 +169,7 @@ extern const char kChromeUIWelcomeWin10Host[];
 extern const char kChromeUIWelcomeWin10URL[];
 extern const char kDeprecatedChromeUIHistoryFrameHost[];
 extern const char kDeprecatedChromeUIHistoryFrameURL[];
+extern const char kRewardsJS[];
 
 #if defined(OS_ANDROID)
 extern const char kChromeUIExploreSitesInternalsHost[];
