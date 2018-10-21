@@ -60,8 +60,7 @@
                 style="@style/ToolbarButton"
                 android:src="@drawable/btn_toolbar_history"
                 android:layout_gravity="center"
-                android:contentDescription="@string/accessibility_toolbar_btn_menu"
-                android:tint="@color/dark_mode_tint" />
+                android:contentDescription="@string/accessibility_toolbar_btn_menu"/>
 
             <Space
                 android:layout_width="0dp"
@@ -73,8 +72,7 @@
                 style="@style/ToolbarButton"
                 android:src="@drawable/btn_toolbar_new_tab"
                 android:layout_gravity="center"
-                android:contentDescription="@string/accessibility_toolbar_btn_menu"
-                android:tint="@color/dark_mode_tint" />
+                android:contentDescription="@string/accessibility_toolbar_btn_menu"/>
 
             <Space
                 android:layout_width="0dp"
