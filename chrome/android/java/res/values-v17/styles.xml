@@ -859,6 +859,9 @@
     <style name="SwitchTheme">
         <item name="colorControlActivated">@color/brave_theme_color</item>
     </style>
+    <style name="BraveRewardsSwitchTheme">
+        <item name="colorControlActivated">@color/brave_rewards_theme_color</item>
+    </style>
 
     <!-- Battons for Brave Sync -->
   <style name="BraveSyncButton">
