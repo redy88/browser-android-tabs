@@ -571,10 +571,6 @@ by a child template that "extends" this file.
             {{ self.supports_video_persistence() }} >
             {{ self.extra_web_rendering_activity_definitions() }}
         </activity>
-        <activity android:name="org.chromium.chrome.browser.PopupActivity"
-            android:theme="@style/PopupTheme" >
-        </activity>
-
 
          <activity android:name="org.chromium.chrome.browser.BraveRewardsDonationSentActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" 
