@@ -438,7 +438,7 @@ public class ToolbarTablet extends ToolbarLayout
     public void OnGetCurrentBalanceReport(String[] report) {}
 
     @Override
-    public void OnNotificationAdded(String id, int type, int timestamp,
+    public void OnNotificationAdded(String id, int type, long timestamp,
             String[] args) {
         if (mBraveRewardsNativeWorker != null) {
             mBraveRewardsNativeWorker.GetAllNotifications();
@@ -467,7 +467,7 @@ public class ToolbarTablet extends ToolbarLayout
     }
 
     @Override
-    public void OnGetLatestNotification(String id, int type, int timestamp,
+    public void OnGetLatestNotification(String id, int type, long timestamp,
             String[] args) {}
 
     @Override
