@@ -223,7 +223,7 @@ public class ToolbarManager
     private boolean mToolbarInflationComplete;
     private boolean mInitializedWithNative;
 
-    private boolean mShouldUpdateToolbarPrimaryColor = false;
+    private boolean mShouldUpdateToolbarPrimaryColor = true;
     private int mCurrentThemeColor;
 
     private OmniboxStartupMetrics mOmniboxStartupMetrics;
@@ -751,16 +751,33 @@ public class ToolbarManager
      * Enable the bottom toolbar.
      */
     public void enableBottomToolbar() {
-        if (FeatureUtilities.isBottomToolbarEnabled()) {
-            /*final ToolbarButtonSlotData firstButtonSlot =
-                    new ToolbarButtonSlotData(createHomeButton());
-            final ToolbarButtonSlotData secondButtonSlot =
-                    new ToolbarButtonSlotData(createSearchAccelerator());*/
-            mBottomToolbarCoordinator = new BottomToolbarCoordinator(
-                    mActivity.getFullscreenManager(), mActivity.findViewById(R.id.coordinator), 
-                    /*firstButtonSlot, secondButtonSlot,*/ mActivity, mToolbarModel);
-            if (mAppMenuButtonHelper != null) mAppMenuButtonHelper.setMenuShowsFromBottom(true);
-        }
+        // TODO(amaralp): Move creation of these listeners to bottom toolbar component.
+        final OnClickListener homeButtonListener = v -> {
+            recordBottomToolbarUseForIPH();
+            openHomepage();
+        };
+
+        final OnClickListener searchAcceleratorListener = v -> {
+            recordBottomToolbarUseForIPH();
+            recordOmniboxFocusReason(OmniboxFocusReason.ACCELERATOR_TAP);
+            ACCELERATOR_BUTTON_TAP_ACTION.record();
+            setUrlBarFocus(true);
+        };
+
+        final OnClickListener shareButtonListener = v -> {
+            recordBottomToolbarUseForIPH();
+            boolean isIncognito = false;
+            if (mTabModelSelector != null) {
+                isIncognito = mTabModelSelector.getCurrentTab().isIncognito();
+            }
+            mActivity.onShareMenuItemSelected(false, isIncognito);
+        };
+
+        mBottomToolbarCoordinator = new BottomToolbarCoordinator(mActivity.getFullscreenManager(),
+                mActivity.findViewById(R.id.bottom_toolbar_stub),
+                mActivity.getActivityTabProvider(), homeButtonListener, searchAcceleratorListener,
+                shareButtonListener);
+        if (mAppMenuButtonHelper != null) mAppMenuButtonHelper.setMenuShowsFromBottom(true);
     }
 
     /** Record that homepage button was used for IPH reasons */
@@ -786,75 +803,6 @@ public class ToolbarManager
             recordBottomToolbarUseForIPH();
             listener.onClick(v);
         };
-    }
-
-    private ToolbarButtonData createHomeButton() {
-        final OnClickListener homeButtonListener = v -> {
-            recordBottomToolbarUseForIPH();
-            openHomepage();
-        };
-        final int homeButtonIcon = FeatureUtilities.isNewTabPageButtonEnabled()
-                ? R.drawable.ic_home
-                : R.drawable.btn_toolbar_home;
-        final Drawable drawable = ContextCompat.getDrawable(mActivity, homeButtonIcon);
-        final CharSequence accessibilityString =
-                mActivity.getString(R.string.accessibility_toolbar_btn_home);
-        return new ToolbarButtonData(
-                drawable, accessibilityString, accessibilityString, homeButtonListener, mActivity);
-    }
-
-    private ToolbarButtonData createBookmarksButton() {
-        final OnClickListener homeButtonListener = v -> {
-            recordBottomToolbarUseForIPH();
-            openHomepage();
-        };
-        final int homeButtonIcon = FeatureUtilities.isNewTabPageButtonEnabled()
-                ? R.drawable.ic_home
-                : R.drawable.btn_toolbar_home;
-        final Drawable drawable = ContextCompat.getDrawable(mActivity, homeButtonIcon);
-        final CharSequence accessibilityString =
-                mActivity.getString(R.string.accessibility_toolbar_btn_home);
-        return new ToolbarButtonData(
-                drawable, accessibilityString, accessibilityString, homeButtonListener, mActivity);
-    }
-
-    private ToolbarButtonData createNewTabButton(OnClickListener newTabClickListener) {
-        final CharSequence normalAccessibilityString =
-                mActivity.getString(R.string.accessibility_toolbar_btn_new_tab);
-        final CharSequence incognitoAccessibilityString =
-                mActivity.getString(R.string.accessibility_toolbar_btn_new_incognito_tab);
-
-        final Drawable drawable = VectorDrawableCompat.create(
-                mActivity.getResources(), R.drawable.new_tab_icon, mActivity.getTheme());
-        return new ToolbarButtonData(drawable, normalAccessibilityString,
-                incognitoAccessibilityString, newTabClickListener, mActivity);
-    }
-
-    private ToolbarButtonData createSearchAccelerator() {
-        final OnClickListener searchAcceleratorListener = v -> {
-            recordBottomToolbarUseForIPH();
-            recordOmniboxFocusReason(OmniboxFocusReason.ACCELERATOR_TAP);
-            ACCELERATOR_BUTTON_TAP_ACTION.record();
-            setUrlBarFocus(true);
-        };
-        final Drawable drawable =
-                ContextCompat.getDrawable(mActivity, R.drawable.ic_search).mutate();
-        final CharSequence accessibilityString =
-                mActivity.getString(R.string.accessibility_toolbar_btn_search_accelerator);
-        return new ToolbarButtonData(drawable, accessibilityString, accessibilityString,
-                searchAcceleratorListener, mActivity);
-    }
-
-    private ToolbarButtonData createIncognitoToggleButton(
-            OnClickListener incognitoToggleClickHandler) {
-        final CharSequence normalAccessibilityString =
-                mActivity.getString(R.string.accessibility_tabstrip_btn_incognito_toggle_standard);
-        final CharSequence incognitoAccessibilityString =
-                mActivity.getString(R.string.accessibility_tabstrip_btn_incognito_toggle_incognito);
-        final Drawable drawable =
-                ContextCompat.getDrawable(mActivity, R.drawable.incognito_statusbar);
-        return new ToolbarButtonData(drawable, normalAccessibilityString,
-                incognitoAccessibilityString, incognitoToggleClickHandler, mActivity);
     }
 
     /**
@@ -1020,13 +968,11 @@ public class ToolbarManager
                     mTabModelSelector.getModel(isIncognito).closeAllTabs();
                 };
                 mAppMenuButtonHelper.setOnClickRunnable(() -> recordBottomToolbarUseForIPH());
-                final OnClickListener homeButtonListener = v -> openHomepage();
                 mBottomToolbarCoordinator.initializeWithNative(
                         mActivity.getCompositorViewHolder().getResourceManager(),
                         mActivity.getCompositorViewHolder().getLayoutManager(),
                         wrapBottomToolbarClickListenerForIPH(tabSwitcherClickHandler),
                         wrapBottomToolbarClickListenerForIPH(newTabClickHandler),
-                        homeButtonListener,
                         mAppMenuButtonHelper, mTabModelSelector, mOverviewModeBehavior,
                         mActivity.getWindowAndroid(), mTabCountProvider, mIncognitoStateProvider);
 
