@@ -43,6 +43,17 @@
                 style="@style/BottomToolbarButton"
                 android:contentDescription="@string/accessibility_toolbar_btn_home" />
 
+             <org.chromium.chrome.browser.toolbar.HomeButton
+                 android:id="@+id/home_button"
+                 app:tint="@color/dark_mode_tint"
+                 style="@style/BottomToolbarButton"
+                 android:contentDescription="@string/accessibility_toolbar_btn_home" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
             <android.support.v7.widget.AppCompatImageButton
                 android:id="@+id/bookmarks_button"
                 style="@style/ToolbarButton"
