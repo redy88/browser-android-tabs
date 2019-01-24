@@ -365,6 +365,7 @@
 #include "components/nacl/broker/nacl_broker_manifest.h"
 #endif
 #endif
+#include "brave/components/services/bat_ledger/public/interfaces/bat_ledger.mojom.h"
 
 #if defined(OS_WIN)
 #include "base/strings/string_tokenizer.h"
@@ -4035,7 +4036,9 @@ void ChromeContentBrowserClient::RegisterOutOfProcessServices(
 #if BUILDFLAG(BRAVE_ADS_ENABLED)
   (*services)[bat_ads::mojom::kServiceName] = base::BindRepeating(
     []() -> base::string16 { return base::ASCIIToUTF16("Bat Ads Service"); });
-#endif    
+#endif
+  (*services)[bat_ledger::mojom::kServiceName] = base::BindRepeating(
+    []() -> base::string16 { return base::ASCIIToUTF16("Bat Ledger Service"); });
 }
 
 void ChromeContentBrowserClient::HandleServiceRequest(
