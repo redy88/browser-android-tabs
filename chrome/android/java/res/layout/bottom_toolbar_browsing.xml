@@ -56,7 +56,7 @@
 
             <android.support.v7.widget.AppCompatImageButton
                 android:id="@+id/bookmarks_button"
-                style="@style/ToolbarButton"
+                style="@style/BottomToolbarButton"
                 android:src="@drawable/btn_toolbar_bookmarks"
                 android:layout_gravity="center"
                 android:contentDescription="@string/accessibility_toolbar_btn_home"/>
@@ -66,21 +66,9 @@
                 android:layout_height="1dp"
                 android:layout_weight="1" />
 
-            <android.support.v7.widget.AppCompatImageButton
-                android:id="@+id/history_button"
-                style="@style/ToolbarButton"
-                android:src="@drawable/btn_toolbar_history"
-                android:layout_gravity="center"
-                android:contentDescription="@string/accessibility_toolbar_btn_menu"/>
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
-
             <org.chromium.chrome.browser.widget.newtab.NewTabButton
                 android:id="@+id/new_tab_button"
-                style="@style/ToolbarButton"
+                style="@style/BottomToolbarButton"
                 android:src="@drawable/btn_toolbar_new_tab"
                 android:layout_gravity="center"
                 android:contentDescription="@string/accessibility_toolbar_btn_menu"/>
@@ -92,7 +80,7 @@
 
             <org.chromium.chrome.browser.toolbar.TabSwitcherButtonView
                 android:id="@+id/tab_switcher_button"
-                style="@style/ToolbarButton"
+                style="@style/BottomToolbarButton"
                 android:layout_gravity="center"
                 android:contentDescription="@string/accessibility_toolbar_btn_tabswitcher_toggle_default" />
 
