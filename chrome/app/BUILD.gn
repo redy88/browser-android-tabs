@@ -544,6 +544,7 @@ source_set("chrome_packaged_service_manifests") {
     "//chrome/common:mojo_bindings",
     "//chrome/services/file_util:manifest",
     "//chrome/services/noop:manifest",
+    "//brave/components/services/bat_ledger:manifest",
     "//components/services/patch:manifest",
     "//components/services/unzip:manifest",
     "//components/spellcheck/common:interfaces",
