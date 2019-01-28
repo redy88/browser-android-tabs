@@ -223,7 +223,7 @@ public class ToolbarManager
     private boolean mToolbarInflationComplete;
     private boolean mInitializedWithNative;
 
-    private boolean mShouldUpdateToolbarPrimaryColor = true;
+    private boolean mShouldUpdateToolbarPrimaryColor = false;
     private int mCurrentThemeColor;
 
     private OmniboxStartupMetrics mOmniboxStartupMetrics;
