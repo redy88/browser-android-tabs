@@ -169,18 +169,12 @@ const char kChromeUIWelcomeWin10URL[] = "chrome://welcome-win10/";
 const char kDeprecatedChromeUIHistoryFrameHost[] = "history-frame";
 const char kDeprecatedChromeUIHistoryFrameURL[] = "chrome://history-frame/";
 const char kRewardsJS[] = "brave_rewards.js";
-const char kRewardsPanelJS[] = "brave_rewards_panel.js";
-const char kRewardsDonateJS[] = "brave_rewards_donate.js";
 
 #if defined(OS_ANDROID)
 const char kChromeUIEocInternalsHost[] = "eoc-internals";
 const char kChromeUIExploreSitesInternalsHost[] = "explore-sites-internals";
 const char kBraveRewardsURL[] = "chrome://rewards/";
 const char kBraveRewardsHost[] = "rewards";
-const char kBraveRewardsPanelURL[] = "chrome://rewards-panel/";
-const char kBraveRewardsPanelHost[] = "rewards-panel";
-const char kBraveRewardsDonateURL[] = "chrome://rewards-donate/";
-const char kBraveRewardsDonateHost[] = "rewards-donate";
 const char kChromeUIJavaCrashURL[] = "chrome://java-crash/";
 const char kChromeUINativeBookmarksURL[] = "chrome-native://bookmarks/";
 const char kChromeUINativeExploreURL[] = "chrome-native://explore";
@@ -408,8 +402,6 @@ const char* const kChromeHostURLs[] = {
     kChromeUIEocInternalsHost,
     kChromeUIExploreSitesInternalsHost,
     kBraveRewardsURL,
-    kBraveRewardsPanelURL,
-    kBraveRewardsDonateURL,
     kChromeUIOfflineInternalsHost,
     kChromeUISnippetsInternalsHost,
     kChromeUIWebApksHost,
