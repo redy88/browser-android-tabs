@@ -275,7 +275,6 @@ public class Preferences extends AppCompatActivity implements OnPreferenceStartF
 
     @Override
     public void onBackPressed() {
-         Log.i(TAG, "SAM: onBackPressed clicked");
          if (getFragmentForTest() instanceof BraveSyncScreensPreference) {
              BraveSyncScreensPreference pref = (BraveSyncScreensPreference) getFragmentForTest();
              if (pref.onBackPressed()) {
