@@ -427,7 +427,7 @@
   },
   "ui/webui/resources/webui_resources.grd": {
     "includes": [27850],
-    "structures": [28050],
+    "structures": [28550],
   },
 
   # This file is generated during the build.

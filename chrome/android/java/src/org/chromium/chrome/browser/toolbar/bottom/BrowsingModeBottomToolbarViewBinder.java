@@ -81,8 +81,10 @@ public class BrowsingModeBottomToolbarViewBinder
             view.toolbarRoot.setSwipeDetector(
                     model.get(BrowsingModeBottomToolbarModel.TOOLBAR_SWIPE_HANDLER));
         } else if (BrowsingModeBottomToolbarModel.PRIMARY_COLOR == propertyKey) {
-            view.toolbarRoot.findViewById(R.id.bottom_toolbar_buttons)
+            if (view.toolbarRoot.findViewById(R.id.bottom_toolbar_buttons) != null) {
+                view.toolbarRoot.findViewById(R.id.bottom_toolbar_buttons)
                     .setBackgroundColor(model.get(BrowsingModeBottomToolbarModel.PRIMARY_COLOR));
+            }
         } else if (BrowsingModeBottomToolbarModel.IS_VISIBLE == propertyKey) {
             final boolean isVisible = model.get(BrowsingModeBottomToolbarModel.IS_VISIBLE);
             view.toolbarRoot.setVisibility(isVisible ? View.VISIBLE : View.GONE);

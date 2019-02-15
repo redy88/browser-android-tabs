@@ -974,6 +974,7 @@ public class ToolbarManager
                         mActivity.getCompositorViewHolder().getLayoutManager(),
                         wrapBottomToolbarClickListenerForIPH(tabSwitcherClickHandler),
                         wrapBottomToolbarClickListenerForIPH(newTabClickHandler),
+                        closeTabsClickListener,
                         mAppMenuButtonHelper, mTabModelSelector, mOverviewModeBehavior,
                         mActivity.getWindowAndroid(), mTabCountProvider, mIncognitoStateProvider);
 
