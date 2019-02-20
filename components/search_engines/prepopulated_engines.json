@@ -28,7 +28,7 @@
     // Increment this if you change the data in ways that mean users with
     // existing data should get a new version. Otherwise, existing data may
     // continue to be used and updates made here will not always appear.
-    "kCurrentDataVersion": 110
+    "kCurrentDataVersion": 111
   },
 
   // The following engines are included in country lists and are added to the
@@ -1097,6 +1097,16 @@
       "encoding": "windows-1250",
       "type": "SEARCH_ENGINE_ZOZNAM",
       "id": 85
+    },
+
+    "startpage": {
+      "name": "StartPage",
+      "keyword": "startpage.com",
+      "favicon_url": "https://www.startpage.com/graphics/favicon/sp-favicon-16x16.png",
+      "search_url": "https://www.startpage.com/do/dsearch?query={searchTerms}&cat=web&pl=opensearch",
+      "suggest_url": "https://www.startpage.com/cgi-bin/csuggest?query={searchTerms}&limit=10&format=json",
+      "type": "SEARCH_ENGINE_STARTPAGE",
+      "id": 22
     }
   }
 }
