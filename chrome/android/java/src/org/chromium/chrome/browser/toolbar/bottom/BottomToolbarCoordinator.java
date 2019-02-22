@@ -93,7 +93,7 @@ public class BottomToolbarCoordinator {
         mBottomToolbarThemeColorProvider.setOverviewModeBehavior(overviewModeBehavior);
 
         mBrowsingModeCoordinator.initializeWithNative(resourceManager, layoutManager,
-                tabSwitcherListener, menuButtonHelper, overviewModeBehavior, windowAndroid,
+                tabSwitcherListener, newTabClickListener, menuButtonHelper, overviewModeBehavior, windowAndroid,
                 tabCountProvider, mBottomToolbarThemeColorProvider, tabModelSelector);
         mTabSwitcherModeCoordinator = new TabSwitcherBottomToolbarCoordinator(mTabSwitcherModeStub,
                 incognitoStateProvider, mBottomToolbarThemeColorProvider, newTabClickListener,
