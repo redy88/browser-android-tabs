@@ -260,7 +260,8 @@ public class LocationBarModel implements ToolbarDataProvider {
                     ColorUtils.shouldUseLightForegroundOnBackground(currentPrimaryColor);
         }
 
-        return !isIncognito() && (!hasTab() || !brandColorNeedsLightText);
+        // (Albert Wang) Keep background colors consistent for incognito
+        return true || !isIncognito() && (!hasTab() || !brandColorNeedsLightText);
     }
 
     @Override
@@ -408,7 +409,8 @@ public class LocationBarModel implements ToolbarDataProvider {
         boolean needLightIcon = ColorUtils.shouldUseLightForegroundOnBackground(color);
         if (isIncognito() || needLightIcon) {
             // For a dark theme color, use light icons.
-            list = AppCompatResources.getColorStateList(mContext, R.color.light_mode_tint);
+            // (Albert Wang): Keep colors consistent in incognito
+            list = AppCompatResources.getColorStateList(mContext, R.color.dark_mode_tint);
         } else if (isPreview()) {
             // There will never be a preview in incognito. Always use the darker color rather than
             // incorporating with the block above.
