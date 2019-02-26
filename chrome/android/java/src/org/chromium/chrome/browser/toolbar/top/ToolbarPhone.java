@@ -1085,7 +1085,7 @@ public class ToolbarPhone
      */
     private void updateUrlExpansionAnimation() {
         if (isInTabSwitcherMode()) {
-            mToolbarButtonsContainer.setVisibility(VISIBLE);
+            mToolbarButtonsContainer.setVisibility(GONE);
             return;
         }
 
