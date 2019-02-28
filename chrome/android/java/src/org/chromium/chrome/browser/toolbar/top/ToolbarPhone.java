@@ -851,6 +851,9 @@ public class ToolbarPhone
     }
 
     private void updateToolbarBackground(int color) {
+        if (isIncognito()) {
+            color = ApiCompatibilityUtils.getColor(getResources(), R.color.modern_grey_800);
+        }
         if (mToolbarBackground.getColor() == color) return;
         mToolbarBackground.setColor(color);
         invalidate();
