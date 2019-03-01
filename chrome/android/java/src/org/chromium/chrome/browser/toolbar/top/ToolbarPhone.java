@@ -2114,6 +2114,10 @@ public class ToolbarPhone
     public void OnGetPendingContributionsTotal(double amount) {}
 
     @Override
+    public void OnGetRewardsMainEnabled(boolean enabled) {}
+
+
+    @Override
     public void setOnTabSwitcherClickHandler(OnClickListener listener) {
         mTabSwitcherListener = listener;
     }
