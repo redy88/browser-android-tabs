@@ -2315,6 +2315,13 @@ extern const char kAutofillCreditCardUploadDescription[];
 
 #endif  // defined(TOOLKIT_VIEWS) || defined(OS_ANDROID)
 
+#if defined (OS_ANDROID)
+
+extern const char kBraveRewardsName[];
+extern const char kBraveRewardsDescription[];
+
+#endif // defined (OS_ANDROID)
+
 // ============================================================================
 // Don't just add flags to the end, put them in the right section in
 // alphabetical order. See top instructions for more.
