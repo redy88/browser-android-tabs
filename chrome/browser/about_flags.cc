@@ -4477,6 +4477,13 @@ const FeatureEntry kFeatureEntries[] = {
      FEATURE_VALUE_TYPE(
          autofill::features::kAutofillAlwaysShowServerCardsInSyncTransport)},
 #endif  // defined(OS_WIN) || defined(OS_MACOSX) || defined(OS_LINUX)
+
+#if defined(OS_ANDROID)
+     {"enable-brave-rewards",
+          flag_descriptions::kBraveRewardsName,
+          flag_descriptions::kBraveRewardsDescription, kOsAndroid,
+          FEATURE_VALUE_TYPE(features::kBraveRewards)},
+#endif // defined(OS_ANDROID)
 };
 
 class FlagsStateSingleton {
