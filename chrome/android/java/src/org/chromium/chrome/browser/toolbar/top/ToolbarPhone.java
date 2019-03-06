@@ -2116,6 +2116,9 @@ public class ToolbarPhone
     @Override
     public void OnGetRewardsMainEnabled(boolean enabled) {}
 
+    @Override
+    public void OnGetAutoContributeProps() {}
+
 
     @Override
     public void setOnTabSwitcherClickHandler(OnClickListener listener) {
