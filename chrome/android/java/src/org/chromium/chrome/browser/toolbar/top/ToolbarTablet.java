@@ -95,6 +95,9 @@ public class ToolbarTablet extends ToolbarLayout
     private BraveRewardsNativeWorker mBraveRewardsNativeWorker;
     private BraveRewardsPanelPopup mRewardsPopup;
 
+    private FrameLayout mShieldsLayout;
+    private FrameLayout mRewardsLayout;
+
     /**
      * Constructs a ToolbarTablet object.
      * @param context The Context in which this View object is created.
@@ -148,11 +151,15 @@ public class ToolbarTablet extends ToolbarLayout
         mShouldAnimateButtonVisibilityChange = false;
         mToolbarButtonsVisible = true;
         mBraveShieldsButton = (ImageView) findViewById(R.id.brave_shields_button);
-        mBraveShieldsButton.setClickable(true);
+        if (mBraveShieldsButton != null) {
+            mBraveShieldsButton.setClickable(true);
+        }
+        mShieldsLayout = (FrameLayout) findViewById(R.id.brave_shields_button_layout);
         mBraveRewardsPanelButton = (ImageView) findViewById(R.id.brave_rewards_button);
         if (mBraveRewardsPanelButton != null) {
             mBraveRewardsPanelButton.setClickable(true);
         }
+        mRewardsLayout = (FrameLayout) findViewById(R.id.brave_rewards_button_layout);
         mBraveRewardsNotificationsCount = (TextView) findViewById(R.id.br_notifications_count);
         mToolbarButtons = new ImageButton[] {mBackButton, mForwardButton, mReloadButton};
     }
@@ -163,17 +170,15 @@ public class ToolbarTablet extends ToolbarLayout
      */
     @Override
     public void onNativeLibraryReady() {
-        FrameLayout shieldsLayout = (FrameLayout) findViewById(R.id.brave_shields_button_layout);
         if (ChromeFeatureList.isEnabled(ChromeFeatureList.BRAVE_REWARDS)) {
-            FrameLayout rewardsLayout = (FrameLayout) findViewById(R.id.brave_rewards_button_layout);
-            if (rewardsLayout != null && shieldsLayout != null) {
-                shieldsLayout.setBackgroundColor(ApiCompatibilityUtils.getColor(getResources(), R.color.modern_grey_100));
-                rewardsLayout.setVisibility(View.VISIBLE);
+            if (mRewardsLayout != null && mShieldsLayout != null) {
+                mShieldsLayout.setBackgroundColor(ApiCompatibilityUtils.getColor(getResources(), R.color.modern_grey_100));
+                mRewardsLayout.setVisibility(View.VISIBLE);
             }
         }
 
-        if (shieldsLayout != null) {
-            shieldsLayout.setVisibility(View.VISIBLE);
+        if (mShieldsLayout != null) {
+            mShieldsLayout.setVisibility(View.VISIBLE);
         }
         super.onNativeLibraryReady();
         mLocationBar.onNativeLibraryReady();
@@ -422,8 +427,14 @@ public class ToolbarTablet extends ToolbarLayout
             if (incognito) {
                 mLocationBar.getContainerView().getBackground().setAlpha(
                         ToolbarPhone.LOCATION_BAR_TRANSPARENT_BACKGROUND_ALPHA);
+                mShieldsLayout.getBackground().setAlpha(
+                    ToolbarPhone.LOCATION_BAR_TRANSPARENT_BACKGROUND_ALPHA);
+                mRewardsLayout.getBackground().setAlpha(
+                    ToolbarPhone.LOCATION_BAR_TRANSPARENT_BACKGROUND_ALPHA);
             } else {
                 mLocationBar.getContainerView().getBackground().setAlpha(255);
+                mShieldsLayout.getBackground().setAlpha(255);
+                mRewardsLayout.getBackground().setAlpha(255);
             }
             mAccessibilitySwitcherButton.setUseLightDrawables(incognito);
             mLocationBar.updateVisualsForState();
