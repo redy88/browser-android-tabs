@@ -256,8 +256,7 @@ public class LocationBarModel implements ToolbarDataProvider {
                     ColorUtils.shouldUseLightForegroundOnBackground(currentPrimaryColor);
         }
 
-        // (Albert Wang) Keep background colors consistent for incognito
-        return true || !isIncognito() && (!hasTab() || !brandColorNeedsLightText);
+        return !isIncognito() && (!hasTab() || !brandColorNeedsLightText);
     }
 
     @Override

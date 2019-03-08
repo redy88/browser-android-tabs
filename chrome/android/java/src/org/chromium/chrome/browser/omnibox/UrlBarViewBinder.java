@@ -90,12 +90,20 @@ class UrlBarViewBinder {
         int textColor;
         int hintColor;
         int highlightColor;
-        // (Albert Wang): We want to show grey hints
-        textColor =
-                ApiCompatibilityUtils.getColor(resources, R.color.url_emphasis_default_text);
-        hintColor =
-                ApiCompatibilityUtils.getColor(resources, R.color.locationbar_dark_hint_text);
-        highlightColor = originalHighlightColor;
+        if (useDarkTextColors) {
+            textColor =
+                    ApiCompatibilityUtils.getColor(resources, R.color.url_emphasis_default_text);
+            hintColor =
+                    ApiCompatibilityUtils.getColor(resources, R.color.locationbar_dark_hint_text);
+            highlightColor = originalHighlightColor;
+        } else {
+            textColor = ApiCompatibilityUtils.getColor(
+                    resources, R.color.url_emphasis_light_default_text);
+            hintColor =
+                    ApiCompatibilityUtils.getColor(resources, R.color.locationbar_light_hint_text);
+            highlightColor = ApiCompatibilityUtils.getColor(
+                    resources, R.color.locationbar_light_selection_color);
+        }
 
         view.setTextColor(textColor);
         setHintTextColor(view, hintColor);
