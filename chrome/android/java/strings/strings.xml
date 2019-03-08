@@ -137,6 +137,9 @@ Saved</string>
     <string name="brave_sync_copy_button_text">Copy to Clipboard</string>
     <string name="brave_sync_copied_text">Copied to Clipboard</string>
     <string name="brave_sync_this_device_text">(this device)</string>
-
     <string name="brave_rewards">Brave Rewards</string>
+    <string name="brave_ui_first_tip_text">Your first monthly tip will be sent on:</string>
+    <string name="brave_ui_tip_text">You've just sent a tip to:</string>
+    <string name="brave_ui_auto_tip_text">You are automatically sending a tip to:</string>
+    <string name="brave_ui_monthly_text">Monthly</string>
 </resources>
