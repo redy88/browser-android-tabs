@@ -22,6 +22,7 @@ import org.chromium.chrome.browser.feature_engagement.TrackerFactory;
 import org.chromium.chrome.browser.fullscreen.ChromeFullscreenManager;
 import org.chromium.chrome.browser.tab.Tab;
 import org.chromium.chrome.browser.tabmodel.TabModelSelector;
+import org.chromium.chrome.browser.toolbar.BookmarksButton;
 import org.chromium.chrome.browser.toolbar.HomeButton;
 import org.chromium.chrome.browser.toolbar.MenuButton;
 import org.chromium.chrome.browser.toolbar.NewTabButton;
@@ -46,10 +47,10 @@ public class BrowsingModeBottomToolbarCoordinator {
     private final HomeButton mHomeButton;
 
     /** The bookmarks button that lives in the bottom toolbar. */
-    private final ImageButton mBookmarksButton;
+    private final BookmarksButton mBookmarksButton;
 
     /** The new tab button that lives in the bottom toolbar. */
-    private NewTabButton mNewTabButton;
+    private BottomToolbarNewTabButton mNewTabButton;
 
     /** The tab switcher button component that lives in the bottom toolbar. */
     private final TabSwitcherButtonCoordinator mTabSwitcherButtonCoordinator;
@@ -151,21 +152,22 @@ public class BrowsingModeBottomToolbarCoordinator {
         mMediator.setOverviewModeBehavior(overviewModeBehavior);
         mMediator.setThemeColorProvider(themeColorProvider);
 
-        // (Albert Wang): Don't use theme changes
-        // mHomeButton.setThemeColorProvider(themeColorProvider);
+        mHomeButton.setThemeColorProvider(themeColorProvider);
         //mShareButton.setThemeColorProvider(themeColorProvider);
         //mSearchAccelerator.setThemeColorProvider(themeColorProvider);
 
         mTabSwitcherButtonCoordinator.setTabSwitcherListener(tabSwitcherListener);
-        // (Albert Wang): Don't use theme changes
-        // mTabSwitcherButtonCoordinator.setThemeColorProvider(themeColorProvider);
+        mTabSwitcherButtonCoordinator.setThemeColorProvider(themeColorProvider);
         mTabSwitcherButtonCoordinator.setTabCountProvider(tabCountProvider);
 
         mMenuButton.setAppMenuButtonHelper(menuButtonHelper);
         mMenuButton.setThemeColorProvider(themeColorProvider);
 
         mNewTabButton = mToolbarRoot.findViewById(R.id.new_tab_button);
+        mNewTabButton.setThemeColorProvider(themeColorProvider);
         mNewTabButton.setOnClickListener(newTabClickListener);
+
+        mBookmarksButton.setThemeColorProvider(themeColorProvider);
     }
 
     /**
@@ -222,5 +224,7 @@ public class BrowsingModeBottomToolbarCoordinator {
         //mSearchAccelerator.destroy();
         mTabSwitcherButtonCoordinator.destroy();
         mMenuButton.destroy();
+        mNewTabButton.destroy();
+        mBookmarksButton.destroy();
     }
 }

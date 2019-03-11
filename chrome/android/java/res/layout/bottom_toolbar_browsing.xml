@@ -28,7 +28,7 @@
         android:layout_marginTop="@dimen/toolbar_shadow_height" >
 
         <LinearLayout
-            android:id="@+id/bottom_sheet_toolbar"
+            android:id="@+id/bottom_toolbar_buttons"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -54,10 +54,10 @@
                 android:layout_height="1dp"
                 android:layout_weight="1" />
 
-            <android.support.v7.widget.AppCompatImageButton
+            <org.chromium.chrome.browser.toolbar.BookmarksButton
                 android:id="@+id/bookmarks_button"
+                app:tint="@color/dark_mode_tint"
                 style="@style/BottomToolbarButton"
-                android:src="@drawable/btn_toolbar_bookmarks"
                 android:layout_gravity="center"
                 android:contentDescription="@string/accessibility_toolbar_btn_home"/>
 
@@ -66,7 +66,7 @@
                 android:layout_height="1dp"
                 android:layout_weight="1" />
 
-            <org.chromium.chrome.browser.toolbar.NewTabButton
+            <org.chromium.chrome.browser.toolbar.bottom.BottomToolbarNewTabButton
                 android:id="@+id/new_tab_button"
                 style="@style/BottomToolbarButton"
                 android:src="@drawable/btn_toolbar_new_tab"
