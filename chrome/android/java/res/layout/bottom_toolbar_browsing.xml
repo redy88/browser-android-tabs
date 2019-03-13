@@ -60,12 +60,13 @@
                 android:layout_height="1dp"
                 android:layout_weight="1" />
 
-            <org.chromium.chrome.browser.toolbar.bottom.BottomToolbarNewTabButton
-                android:id="@+id/new_tab_button"
+            <org.chromium.chrome.browser.toolbar.bottom.SearchAccelerator
+                android:id="@+id/search_accelerator"
                 style="@style/BottomToolbarButton"
-                android:src="@drawable/btn_toolbar_new_tab"
+                app:tint="@color/dark_mode_tint"
                 android:layout_gravity="center"
-                android:contentDescription="@string/accessibility_toolbar_btn_menu"/>
+                android:src="@drawable/ic_search"
+                android:contentDescription="@string/accessibility_toolbar_btn_search_accelerator" />
 
             <Space
                 android:layout_width="0dp"
