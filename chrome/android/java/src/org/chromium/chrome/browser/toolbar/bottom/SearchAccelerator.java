@@ -27,7 +27,7 @@ import org.chromium.ui.widget.ChromeImageButton;
 class SearchAccelerator extends ChromeImageButton
         implements ThemeColorObserver, TintObserver, IncognitoStateObserver {
     /** The gray pill background behind the search icon. */
-    private final Drawable mBackground;
+    //private final Drawable mBackground;
 
     /** The {@link Resources} used to compute the background color. */
     private final Resources mResources;
@@ -42,10 +42,6 @@ class SearchAccelerator extends ChromeImageButton
         super(context, attrs);
 
         mResources = context.getResources();
-
-        mBackground = ApiCompatibilityUtils.getDrawable(mResources, R.drawable.ntp_search_box);
-        mBackground.mutate();
-        setBackground(mBackground);
     }
 
     void setThemeColorProvider(ThemeColorProvider themeColorProvider) {
@@ -74,7 +70,7 @@ class SearchAccelerator extends ChromeImageButton
 
     @Override
     public void onThemeColorChanged(int color, boolean shouldAnimate) {
-        updateBackground();
+        //updateBackground();
     }
 
     @Override
@@ -84,15 +80,15 @@ class SearchAccelerator extends ChromeImageButton
 
     @Override
     public void onIncognitoStateChanged(boolean isIncognito) {
-        updateBackground();
+        //updateBackground();
     }
 
-    private void updateBackground() {
+    /*private void updateBackground() {
         if (mThemeColorProvider == null || mIncognitoStateProvider == null) return;
 
         mBackground.setColorFilter(ColorUtils.getTextBoxColorForToolbarBackground(mResources, false,
                                            mThemeColorProvider.getThemeColor(),
                                            mIncognitoStateProvider.isIncognitoSelected()),
                 PorterDuff.Mode.SRC_IN);
-    }
+    }*/
 }
