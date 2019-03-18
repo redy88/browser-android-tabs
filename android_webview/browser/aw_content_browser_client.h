@@ -35,7 +35,7 @@ class AwBrowserContext;
 class AwFeatureListCreator;
 
 std::string GetProduct();
-std::string GetUserAgent();
+std::string GetUserAgent(const std::string& host);
 
 class AwContentBrowserClient : public content::ContentBrowserClient {
  public:
@@ -221,7 +221,7 @@ class AwContentBrowserClient : public content::ContentBrowserClient {
       network::mojom::TrustedURLLoaderHeaderClientPtrInfo* header_client,
       bool* bypass_redirect_checks) override;
   std::string GetProduct() const override;
-  std::string GetUserAgent() const override;
+  std::string GetUserAgent(const std::string& host) const override;
 
   AwFeatureListCreator* aw_feature_list_creator() {
     return aw_feature_list_creator_;

@@ -75,7 +75,7 @@ class Origin;
 }
 
 // Returns the user agent of Chrome.
-std::string GetUserAgent();
+std::string GetUserAgent(const std::string& host);
 
 class ChromeContentBrowserClient : public content::ContentBrowserClient {
  public:
@@ -551,7 +551,7 @@ class ChromeContentBrowserClient : public content::ContentBrowserClient {
                                    blink::mojom::WebFeature feature) override;
 
   std::string GetProduct() const override;
-  std::string GetUserAgent() const override;
+  std::string GetUserAgent(const std::string& host) const override;
 
   bool IsBuiltinComponent(content::BrowserContext* browser_context,
                           const url::Origin& origin) override;

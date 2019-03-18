@@ -1467,7 +1467,7 @@ class CONTENT_EXPORT ContentBrowserClient {
   virtual std::string GetProduct() const;
 
   // Returns the user agent.  Content may cache this value.
-  virtual std::string GetUserAgent() const;
+  virtual std::string GetUserAgent(const std::string& host) const;
 
   // Returns whether |origin| should be considered a integral component similar
   // to native code, and as such whether its log messages should be recorded.
