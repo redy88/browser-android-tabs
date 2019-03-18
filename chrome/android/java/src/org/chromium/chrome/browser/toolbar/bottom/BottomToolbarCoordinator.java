@@ -128,7 +128,12 @@ public class BottomToolbarCoordinator {
      *               bottom toolbar's texture.
      */
     public void setToolbarSwipeLayout(ToolbarSwipeLayout layout) {
-        mBrowsingModeCoordinator.setToolbarSwipeLayout(layout);
+        try {
+            mBrowsingModeCoordinator.setToolbarSwipeLayout(layout);
+        } catch (NullPointerException exc) {
+            // Just ignore it for now
+            assert false;
+        }
     }
 
     /**
