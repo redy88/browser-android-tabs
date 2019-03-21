@@ -973,6 +973,7 @@ public class ToolbarManager
                         mActivity.getCompositorViewHolder().getLayoutManager(),
                         wrapBottomToolbarClickListenerForIPH(tabSwitcherClickHandler),
                         wrapBottomToolbarClickListenerForIPH(newTabClickHandler),
+                        wrapBottomToolbarClickListenerForIPH(bookmarkClickHandler),
                         closeTabsClickListener,
                         mAppMenuButtonHelper, mTabModelSelector, mOverviewModeBehavior,
                         mActivity.getWindowAndroid(), mTabCountProvider, mIncognitoStateProvider);
@@ -1619,6 +1620,9 @@ public class ToolbarManager
         boolean editingAllowed = currentTab == null || mBookmarkBridge == null
                 || mBookmarkBridge.isEditBookmarksEnabled();
         mToolbar.updateBookmarkButton(isBookmarked, editingAllowed);
+        if (mBottomToolbarCoordinator != null) {
+            mBottomToolbarCoordinator.updateBookmarkButton(isBookmarked, editingAllowed);
+        }
     }
 
     private void updateReloadState(boolean tabCrashed) {
