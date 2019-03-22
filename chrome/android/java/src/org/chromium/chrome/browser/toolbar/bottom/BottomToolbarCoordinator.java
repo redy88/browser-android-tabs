@@ -84,7 +84,7 @@ public class BottomToolbarCoordinator {
      * @param incognitoStateProvider Notifies components when incognito mode is entered or exited.
      */
     public void initializeWithNative(ResourceManager resourceManager, LayoutManager layoutManager,
-            OnClickListener tabSwitcherListener, OnClickListener newTabClickListener,
+            OnClickListener tabSwitcherListener, OnClickListener newTabClickListener, OnClickListener bookmarkClickListener,
             OnClickListener closeTabsClickListener, AppMenuButtonHelper menuButtonHelper,
             TabModelSelector tabModelSelector, OverviewModeBehavior overviewModeBehavior,
             WindowAndroid windowAndroid, TabCountProvider tabCountProvider,
@@ -93,7 +93,8 @@ public class BottomToolbarCoordinator {
         mBottomToolbarThemeColorProvider.setOverviewModeBehavior(overviewModeBehavior);
 
         mBrowsingModeCoordinator.initializeWithNative(resourceManager, layoutManager,
-                tabSwitcherListener, newTabClickListener, menuButtonHelper, overviewModeBehavior, windowAndroid,
+                tabSwitcherListener, newTabClickListener, bookmarkClickListener,
+                menuButtonHelper, overviewModeBehavior, windowAndroid,
                 tabCountProvider, mBottomToolbarThemeColorProvider, tabModelSelector);
         mTabSwitcherModeCoordinator = new TabSwitcherBottomToolbarCoordinator(mTabSwitcherModeStub,
                 incognitoStateProvider, mBottomToolbarThemeColorProvider, newTabClickListener,
@@ -159,5 +160,15 @@ public class BottomToolbarCoordinator {
             mTabSwitcherModeCoordinator = null;
         }
         mBottomToolbarThemeColorProvider.destroy();
+    }
+
+    /**
+     * @param isBookmarked Whether or not the current tab is already bookmarked.
+     * @param editingAllowed Whether or not bookmarks can be modified (added, edited, or removed).
+     */
+    public void updateBookmarkButton(boolean isBookmarked, boolean editingAllowed) {
+        if (mBrowsingModeCoordinator != null) {
+            mBrowsingModeCoordinator.updateBookmarkButton(isBookmarked, editingAllowed);
+        }
     }
 }

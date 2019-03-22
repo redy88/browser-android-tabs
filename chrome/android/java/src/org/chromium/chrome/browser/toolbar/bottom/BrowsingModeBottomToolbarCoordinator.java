@@ -95,18 +95,7 @@ public class BrowsingModeBottomToolbarCoordinator {
         mHomeButton.setOnClickListener(homeButtonListener);
         mHomeButton.setActivityTabProvider(tabProvider);
 
-        mBookmarksButton = toolbarRoot.findViewById(R.id.bookmarks_button);
-        mBookmarksButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    BookmarkUtils.showBookmarkManager((ChromeActivity) v.getContext());
-                } catch (ClassCastException exc) {
-                    assert false;
-                    // Just ignore it for now
-                }
-            }
-        });
+        mBookmarksButton = toolbarRoot.findViewById(R.id.bookmark_this_page_id);
 
         mSearchAccelerator = toolbarRoot.findViewById(R.id.search_accelerator);
         mSearchAccelerator.setOnClickListener(searchAcceleratorListener);
@@ -147,7 +136,7 @@ public class BrowsingModeBottomToolbarCoordinator {
      *                         or not to be enabled.
      */
     public void initializeWithNative(ResourceManager resourceManager, LayoutManager layoutManager,
-            OnClickListener tabSwitcherListener, OnClickListener newTabClickListener, 
+            OnClickListener tabSwitcherListener, OnClickListener newTabClickListener, OnClickListener bookmarkClickListener,
             AppMenuButtonHelper menuButtonHelper,
             OverviewModeBehavior overviewModeBehavior, WindowAndroid windowAndroid,
             TabCountProvider tabCountProvider, ThemeColorProvider themeColorProvider,
@@ -171,6 +160,7 @@ public class BrowsingModeBottomToolbarCoordinator {
         mMenuButton.setThemeColorProvider(themeColorProvider);
 
         mBookmarksButton.setThemeColorProvider(themeColorProvider);
+        mBookmarksButton.setOnClickListener(bookmarkClickListener);
     }
 
     /**
@@ -244,6 +234,16 @@ public class BrowsingModeBottomToolbarCoordinator {
         } catch (NullPointerException exc) {
             // Just ignore it here
             assert false;
+        }
+    }
+
+    /**
+     * @param isBookmarked Whether or not the current tab is already bookmarked.
+     * @param editingAllowed Whether or not bookmarks can be modified (added, edited, or removed).
+     */
+    public void updateBookmarkButton(boolean isBookmarked, boolean editingAllowed) {
+        if (mBookmarksButton != null) {
+            mBookmarksButton.updateBookmarkButton(isBookmarked, editingAllowed);
         }
     }
 }
