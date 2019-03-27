@@ -78,6 +78,10 @@
             android:title="@string/brave_set_default_browser" />
         <item android:id="@+id/bottom_toolbar_enable_disable"
             android:title="@string/bottom_toolbar_enable" />
+        <item android:id="@+id/enqueue_normal_notifications"
+              android:title="Enqueue normal notifications" />
+        <item android:id="@+id/enqueue_heads_up_notifications"
+              android:title="Enqueue heads up notifications" />
         <item android:id="@+id/brave_rewards_id"
             android:title="@string/brave_ui_brave_rewards" />
         <item android:id="@+id/preferences_id"

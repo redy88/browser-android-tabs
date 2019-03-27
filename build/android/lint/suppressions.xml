@@ -107,6 +107,7 @@ Still reading?
     <ignore regexp="remoting/android/host/res/layout/main.xml"/>
     <ignore regexp="chrome/android/java/res/layout/brave_rewards_site_banner.xml"/>
     <ignore regexp="chrome/android/java/res/layout-land/brave_rewards_site_banner.xml"/>
+    <ignore regexp="chrome/android/java/res/menu/main_menu.xml"/>
   </issue>
   <issue id="IconColors" severity="Error">
     <ignore regexp="tools/android/audio_focus_grabber/java/res/drawable-hdpi/notification_icon.png"/>
@@ -403,6 +404,7 @@ Still reading?
     <!-- TODO(crbug.com/909915): Remove this after full Lite mode launch. -->
     <!-- 12 resources used by Data Saver during rebranding to Lite mode -->
     <ignore regexp="The resource `R.string..*lite_mode` appears to be unused"/>
+    <ignore regexp="The resource `R.drawable.btn_toolbar.*` appears to be unused"/>
     <!-- Endnote: Please specify number of suppressions when adding more -->
   </issue>
   <issue id="UseCompoundDrawables">

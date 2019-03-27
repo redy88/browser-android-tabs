@@ -7,6 +7,8 @@ package org.chromium.chrome.browser;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.SearchManager;
@@ -21,6 +23,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.AudioAttributes;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import org.chromium.base.task.AsyncTask;
 import android.os.Build;
@@ -127,6 +131,7 @@ import org.chromium.chrome.browser.metrics.UmaSessionStats;
 import org.chromium.chrome.browser.modaldialog.AppModalPresenter;
 import org.chromium.chrome.browser.multiwindow.MultiWindowUtils;
 import org.chromium.chrome.browser.net.spdyproxy.DataReductionProxySettings;
+import org.chromium.chrome.browser.notifications.BraveAdsNotificationService;
 import org.chromium.chrome.browser.notifications.BraveSetDefaultBrowserNotificationService;
 import org.chromium.chrome.browser.nfc.BeamController;
 import org.chromium.chrome.browser.ntp.NewTabPage;
@@ -536,6 +541,7 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
         }*/
 
         createNotificationChannel();
+        createAdsNotificationChannel();
         setupBraveSetDefaultBrowserNotification();
     }
 
@@ -548,6 +554,23 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
             String description = "Notification channel for Brave Browser";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    private void createAdsNotificationChannel() {
+        Context context = ContextUtils.getApplicationContext();
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Brave Browser for Ads";
+            String description = "Ads notification channel for Brave Browser";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel("com.brave.browser.ads", name, importance);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
@@ -2482,12 +2505,37 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
             handleBraveSetDefaultBrowserDialog();
         } else if (id == R.id.bottom_toolbar_enable_disable) {
             showOrHideBottomToolbar();
+        } else if (id == R.id.enqueue_normal_notifications) {
+            enqueueNormalNotifications();
+        } else if (id == R.id.enqueue_heads_up_notifications) {
+            enqueueHeadsUpNotifications();
         } else if (id == R.id.exit_id) {
             ApplicationLifetime.terminate(false);
         } else {
             return false;
         }
         return true;
+    }
+
+    private void enqueueNormalNotifications() {
+        Context context = ContextUtils.getApplicationContext();
+        NotificationCompat.Builder b = new NotificationCompat.Builder(context, "com.brave.browser");
+
+        b.setSmallIcon(R.drawable.ic_chrome)
+         .setAutoCancel(false)
+         .setContentText("Normal notification")
+         .setStyle(new NotificationCompat.BigTextStyle().bigText("Normal notification"))
+         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+         .setCategory(NotificationCompat.CATEGORY_MESSAGE);
+
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(123, b.build());
+    }
+
+    private void enqueueHeadsUpNotifications() {
+        Context context = ContextUtils.getApplicationContext();
+        Intent intent = new Intent(context, BraveAdsNotificationService.class);
+        context.sendBroadcast(intent);
     }
 
     private void showOrHideBottomToolbar() {
