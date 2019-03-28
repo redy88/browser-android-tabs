@@ -2505,8 +2505,6 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
             handleBraveSetDefaultBrowserDialog();
         } else if (id == R.id.bottom_toolbar_enable_disable) {
             showOrHideBottomToolbar();
-        } else if (id == R.id.enqueue_normal_notifications) {
-            enqueueNormalNotifications();
         } else if (id == R.id.enqueue_heads_up_notifications) {
             enqueueHeadsUpNotifications();
         } else if (id == R.id.exit_id) {
@@ -2517,20 +2515,6 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
         return true;
     }
 
-    private void enqueueNormalNotifications() {
-        Context context = ContextUtils.getApplicationContext();
-        NotificationCompat.Builder b = new NotificationCompat.Builder(context, "com.brave.browser");
-
-        b.setSmallIcon(R.drawable.ic_chrome)
-         .setAutoCancel(false)
-         .setContentText("Normal notification")
-         .setStyle(new NotificationCompat.BigTextStyle().bigText("Normal notification"))
-         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-         .setCategory(NotificationCompat.CATEGORY_MESSAGE);
-
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(123, b.build());
-    }
 
     private void enqueueHeadsUpNotifications() {
         Context context = ContextUtils.getApplicationContext();
