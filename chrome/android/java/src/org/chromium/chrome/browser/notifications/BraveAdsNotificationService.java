@@ -34,21 +34,30 @@ public class BraveAdsNotificationService extends BroadcastReceiver {
 
     // Deep links
     public static final String DEEP_LINK = "deep_link";
-    public static final String SHOW_TEST_AD = "SHOW_TEST_AD";
+    public static final String DEEP_LINK_TYPE_PAGE = "deep_link_type_page"; // For opening up pages in Brave or redirecting to Google Play
 
     // Intent types
     public static final String INTENT_TYPE = "intent_type";
 
-    private void showNotification() {
+    // Payload keys for displaying the information
+    public static final String NOTIFICATION_TITLE = "notification_title";
+    public static final String NOTIFICATION_BODY = "notification_body";
+
+    // E.g. values: 
+    // ["https://play.google.com/store/apps/details?id=com.brave.browser",
+    //  "market://details?id=com.brave.browser"]
+    public static final String NOTIFICATION_URL = "notification_url";
+
+    private void showNotification(Intent intent) {
         NotificationCompat.Builder b = new NotificationCompat.Builder(mContext, "com.brave.browser.ads");
         b.setDefaults(Notification.DEFAULT_ALL)
          .setSmallIcon(R.drawable.ic_chrome)
-         .setContentTitle("Brave")
-         .setContentText("Download now")
+         .setContentTitle((String) intent.getStringExtra(NOTIFICATION_TITLE))
+         .setContentText((String) intent.getStringExtra(NOTIFICATION_BODY))
          .setCategory(Notification.CATEGORY_MESSAGE)
          .setPriority(Notification.PRIORITY_MAX);
 
-        b.setContentIntent(getAdsDeepLinkIntent(mContext));
+        b.setContentIntent(getAdsDeepLinkIntent(mContext, intent));
 
         if (Build.VERSION.SDK_INT >= 21) b.setVibrate(new long[0]);
 
@@ -56,31 +65,29 @@ public class BraveAdsNotificationService extends BroadcastReceiver {
         notificationManager.notify(NOTIFICATION_ID, b.build());
     }
 
-    private PendingIntent getAdsDeepLinkIntent(Context context) {
-        Intent intent = new Intent(context, BraveAdsNotificationService.class);
-        intent.setAction(DEEP_LINK);
-        intent.putExtra(DEEP_LINK, SHOW_TEST_AD);
-        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    private PendingIntent getAdsDeepLinkIntent(Context context, Intent intent) {
+        Intent deepLinkIntent = new Intent(context, BraveAdsNotificationService.class);
+        deepLinkIntent.putExtra(DEEP_LINK, DEEP_LINK_TYPE_PAGE);
+        deepLinkIntent.putExtra(NOTIFICATION_URL, intent.getStringExtra(NOTIFICATION_URL));
+        return PendingIntent.getBroadcast(context, 0, deepLinkIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private void handleAdsDeepLink(Intent intent) {
-         Bundle bundle = intent.getExtras();
-         if (bundle.getString(BraveAdsNotificationService.DEEP_LINK).equals(BraveAdsNotificationService.SHOW_TEST_AD)) {
-            String appPackageName = "com.brave.browser";
-            Intent testIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName));
-            testIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mContext.startActivity(testIntent);
-         }
+        if (intent.getStringExtra(BraveAdsNotificationService.DEEP_LINK).equals(BraveAdsNotificationService.DEEP_LINK_TYPE_PAGE)) {
+           Intent deepLinkIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(intent.getStringExtra(NOTIFICATION_URL)));
+           deepLinkIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+           mContext.startActivity(deepLinkIntent);
+        }
      }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         mContext = context;
         mIntent = intent;
-        if (intent != null && intent.hasExtra(BraveAdsNotificationService.DEEP_LINK)) {
+        if (intent != null && intent.hasExtra(DEEP_LINK)) {
             handleAdsDeepLink(intent);
         } else {
-            showNotification();
+            showNotification(intent);
         }
     }
 }

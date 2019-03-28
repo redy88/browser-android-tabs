@@ -2533,6 +2533,9 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
     private void enqueueHeadsUpNotifications() {
         Context context = ContextUtils.getApplicationContext();
         Intent intent = new Intent(context, BraveAdsNotificationService.class);
+        intent.putExtra(BraveAdsNotificationService.NOTIFICATION_TITLE, "Hello World");
+        intent.putExtra(BraveAdsNotificationService.NOTIFICATION_BODY, "Lorem ipsum");
+        intent.putExtra(BraveAdsNotificationService.NOTIFICATION_URL, "https://play.google.com/store/apps/details?id=com.brave.browser");
         context.sendBroadcast(intent);
     }
 
