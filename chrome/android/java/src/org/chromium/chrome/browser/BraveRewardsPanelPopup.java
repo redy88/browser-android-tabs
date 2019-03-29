@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.text.Html;
@@ -23,7 +24,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -33,6 +36,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.content.Context;
@@ -60,7 +65,10 @@ import org.chromium.base.ContextUtils;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -116,6 +124,10 @@ public class BraveRewardsPanelPopup implements BraveRewardsObserver, BraveReward
     private AnimationDrawable wallet_init_animation;
     private BraveRewardsHelper mIconFetcher;
 
+    private DonationsAdapter mTip_amount_spinner_data_adapter; //data adapter for mTip_amount_spinner (Spinner)
+    private Spinner mTip_amount_spinner;
+    private boolean mTip_amount_spinner_auto_select; //spinner selection was changed programmatically (true)
+
     //flag, Handler and delay to prevent quick opening of multiple site banners
     private boolean mTippingInProgress;
     private final Handler mHandler = new Handler();
@@ -123,6 +135,9 @@ public class BraveRewardsPanelPopup implements BraveRewardsObserver, BraveReward
 
     private boolean mClaimInProcess;
     private boolean mWalletCreateInProcess;
+
+    private boolean mAutoContributeEnabled;
+    private boolean mPubInReccuredDonation;
 
     public BraveRewardsPanelPopup(View anchor) {
         currentNotificationId = "";
@@ -195,7 +210,7 @@ public class BraveRewardsPanelPopup implements BraveRewardsObserver, BraveReward
               }
           });
         }
-      }, 0, 60000);
+      }, 0, UPDATE_BALANCE_INTERVAL);
     }
 
     protected void onCreate() {
@@ -419,6 +434,43 @@ public class BraveRewardsPanelPopup implements BraveRewardsObserver, BraveReward
         }
 
         SetupNotificationsControls();
+
+        //setting Recurrent Donations spinner
+        mTip_amount_spinner = root.findViewById(R.id.auto_tip_amount);
+        mTip_amount_spinner_data_adapter = new DonationsAdapter(ContextUtils.getApplicationContext());
+        mTip_amount_spinner.setAdapter(mTip_amount_spinner_data_adapter);
+        mTip_amount_spinner.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(
+                            AdapterView<?> parent, View view, int position, long id) {
+                        if (mTip_amount_spinner_auto_select){ //do nothing
+                            mTip_amount_spinner_auto_select = false;
+                            return;
+                        }
+
+                        Integer intObj = (Integer)mTip_amount_spinner_data_adapter.getItem (position);
+                        if (null == intObj){
+                            Log.e(TAG, "Wrong position at Recurrent Donations Spinner");
+                            return;
+                        }
+                        int tipValue = (int)intObj;
+                        String pubId = mBraveRewardsNativeWorker.GetPublisherId(currentTabId);
+                        if (0 == tipValue){
+                            //remove recurrent donation for this publisher
+                            mBraveRewardsNativeWorker.RemoveRecurring(pubId);
+                        }
+                        else{
+                            //update recurrent donation amount for this publisher
+                            mBraveRewardsNativeWorker.Donate(pubId, tipValue, true);
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        //Do nothing
+                    }
+                });
     }
 
     private void startJoinRewardsAnimation(){
@@ -632,6 +684,79 @@ public class BraveRewardsPanelPopup implements BraveRewardsObserver, BraveReward
               }
           });
           publisherFetchesCount++;
+        }
+    }
+
+    public class DonationsAdapter extends BaseAdapter implements SpinnerAdapter {
+        Context context;
+        LayoutInflater inflater;
+        int bat_donations [] = {0,1,5,10};
+
+        public DonationsAdapter(Context applicationContext) {
+            this.context = applicationContext;
+            inflater = (LayoutInflater.from(applicationContext));
+        }
+
+        @Override
+        public int getCount() {
+            return bat_donations.length;
+        }
+
+
+        public int getPosition (int tipValue){
+            int index = Arrays.binarySearch(bat_donations, tipValue);
+            return (index < 0) ? -1 : index;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            Integer intObj = null;
+            if (i >= 0 && i < bat_donations.length) {
+                intObj = Integer.valueOf(bat_donations[i]);
+            }
+            return intObj;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View view, ViewGroup viewGroup) {
+            TextView tv;
+            if (null == view) {
+                tv = (TextView)inflater.inflate(R.layout.brave_rewards_spinnner_item, null);
+            }
+            else{
+                tv = (TextView)view;
+            }
+
+            String strValue = String.format("%d.0 BAT", bat_donations[position]);
+            tv.setText(strValue);
+            return tv;
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            //read USD rate
+            double usdrate = mBraveRewardsNativeWorker.GetWalletRate("USD");
+
+            TextView tv;
+            if (null == convertView) {
+                tv = (TextView)inflater.inflate(R.layout.brave_rewards_spinnner_item_dropdown, null);
+            }
+            else{
+                tv = (TextView)convertView;
+            }
+
+            String strValue = String.format("%d.0 BAT (%.2f USD)", bat_donations[position], bat_donations[position] * usdrate);
+            tv.setText(strValue);
+            int selected = mTip_amount_spinner.getSelectedItemPosition();
+            if (selected == position){
+                tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.changetip_icon, 0, 0, 0);
+            }
+            return tv;
         }
     }
 
@@ -1191,11 +1316,56 @@ public class BraveRewardsPanelPopup implements BraveRewardsObserver, BraveReward
 
     @Override
     public void OnGetAutoContributeProps() {
-        boolean ac_enabled  = mBraveRewardsNativeWorker.IsAutoContributeEnabled();
-        View viewAC  = root.findViewById(R.id.ac_enabled_controls);
-        viewAC.setVisibility(ac_enabled? View.VISIBLE : View.GONE);
+        mAutoContributeEnabled  = mBraveRewardsNativeWorker.IsAutoContributeEnabled();
+        mBraveRewardsNativeWorker.GetRecurringDonations();
     }
 
     @Override
     public void OnGetReconcileStamp(long timestamp){}
+
+
+    /**
+     * OnRecurringDonationUpdated is fired after a publisher was added or removed to/from
+     * recurrent donation list
+     */
+    @Override
+    public void OnRecurringDonationUpdated() {
+        String pubId = mBraveRewardsNativeWorker.GetPublisherId(currentTabId);
+        mPubInReccuredDonation = mBraveRewardsNativeWorker.IsCurrentPublisherInRecurrentDonations(pubId);
+
+        //all (mPubInReccuredDonation, mAutoContributeEnabled) are false: exit
+        //one is true: ac_enabled_controls on
+        //mAutoContributeEnabled: attention_layout and include_in_ac_layout on
+        //mPubInReccuredDonation: auto_tip_layout is on
+
+        if (mAutoContributeEnabled || mPubInReccuredDonation){
+            root.findViewById(R.id.ac_enabled_controls).setVisibility(View.VISIBLE);
+
+            if (mAutoContributeEnabled){
+                root.findViewById(R.id.attention_layout).setVisibility(View.VISIBLE);
+                root.findViewById(R.id.include_in_ac_layout).setVisibility(View.VISIBLE);
+            }
+
+            if (mPubInReccuredDonation){
+                double amount  = mBraveRewardsNativeWorker.GetPublisherRecurrentDonationAmount(pubId);
+                UpdateRecurentDonationSpinner(amount);
+                root.findViewById(R.id.auto_tip_layout).setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+
+    void UpdateRecurentDonationSpinner(double amount){
+        int RequestedPosition = mTip_amount_spinner_data_adapter.getPosition ((int)amount);
+        if (RequestedPosition < 0 || RequestedPosition >= mTip_amount_spinner_data_adapter.getCount() ){
+            Log.e(TAG, "Requested position in Recurrent Donations Spinner doesn't exist");
+            return;
+        }
+
+        int selectedItemPos = mTip_amount_spinner.getSelectedItemPosition();
+        if (RequestedPosition != selectedItemPos){
+            mTip_amount_spinner_auto_select = true; //spinner selection was changed programmatically
+            mTip_amount_spinner.setSelection(RequestedPosition);
+        }
+    }
 }

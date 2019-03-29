@@ -2168,6 +2168,8 @@ public class ToolbarPhone
     @Override
     public void OnGetReconcileStamp(long timestamp){}
 
+    @Override
+    public void OnRecurringDonationUpdated() {}
 
     @Override
     public void setOnTabSwitcherClickHandler(OnClickListener listener) {
