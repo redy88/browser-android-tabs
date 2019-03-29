@@ -41,7 +41,7 @@ _java_target_whitelist = [
 _java_target_blacklist = [ "*:*_unpack_aar" ]
 
 _default_proguard_jar_path = "//third_party/proguard/lib/proguard.jar"
-_r8_path = "//third_party/r8/lib/r8.jar"
+_r8_path = "//third_party/r8/previous/lib/r8.jar"
 
 _dexdump_path = "$android_sdk_build_tools/dexdump"
 _dexlayout_path = "//third_party/android_build_tools/art/dexlayout"
@@ -1373,7 +1373,7 @@ if (enable_java_templates) {
           ]
         }
 
-        _d8_path = "//third_party/r8/lib/d8.jar"
+        _d8_path = "//third_party/r8/previous/lib/d8.jar"
         inputs += [ _d8_path ]
         args += [
           "--d8-jar-path",
