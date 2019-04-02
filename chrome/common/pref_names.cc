@@ -2585,4 +2585,6 @@ const char kTabLifecyclesEnabled[] = "tab_lifecycles_enabled";
 const char kEnterpriseHardwarePlatformAPIEnabled[] =
     "enterprise_hardware_platform_api.enabled";
 
+// Boolean that is true when SafetyNet check is failed.
+const char kSafetynetCheckFailed[] = "safetynetcheck.failed";
 }  // namespace prefs

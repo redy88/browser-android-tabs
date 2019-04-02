@@ -237,4 +237,6 @@ content creators you love.</string>
     <string name="bottom_toolbar_enable">Enable bottom toolbar</string>
     <string name="bottom_toolbar_disable">Disable bottom toolbar</string>
     <string name="search_or_url">Search or URL</string>
+
+    <string name="brave_rewards_not_available">We’re sorry it appears Brave Rewards is not available on your device</string>
 </resources>
