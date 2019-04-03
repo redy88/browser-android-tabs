@@ -244,4 +244,6 @@ content creators you love.</string>
     <string name="brave_rewards_get_started">Get started</string>
 
     <string name="brave_rewards_not_available">We’re sorry it appears Brave Rewards is not available on your device</string>
+
+    <string name="brave_ui_pre_grant_message">Check back soon for a free token grant</string>
 </resources>

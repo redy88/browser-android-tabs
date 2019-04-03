@@ -4715,6 +4715,9 @@ content creators you love.
       <message name="IDS_BRAVE_REWARDS_NOT_AVAILABLE" desc="The message for the dialog when Brave Rewards is not available on the device.">
         We’re sorry it appears Brave Rewards is not available on your device
       </message>
+      <message name="IDS_BRAVE_UI_PRE_GRANT_MESSAGE" desc="A message that appears before grant notification is received">
+        Check back soon for a free token grant
+      </message>
     </messages>
   </release>
 </grit>
