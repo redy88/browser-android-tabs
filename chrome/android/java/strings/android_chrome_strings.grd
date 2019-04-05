@@ -4733,6 +4733,18 @@ content creators you love.
       <message name="IDS_BRAVE_UI_PRE_GRANT_MESSAGE" desc="A message that appears before grant notification is received">
         Check back soon for a free token grant
       </message>
+      <message name="IDS_RESET_BRAVE_REWARDS_OPTION" desc="Title for preference to reset Brave Rewards.">
+        Reset Brave Rewards
+      </message>
+      <message name="IDS_RESET_BRAVE_REWARDS_OPTION_DESCRIPTION" desc="Description for preference to reset Brave Rewards.">
+        This will delete your Brave wallet and reset all of your Brave Rewards data
+      </message>
+      <message name="IDS_RESET_BRAVE_REWARDS_ERROR_TITLE" desc="Title for Brave Rewards reset error dialog.">
+        Reset Error
+      </message>
+      <message name="IDS_RESET_BRAVE_REWARDS_ERROR_DESCRIPTION" desc="Description for Brave Rewards reset error dialog.">
+        There was an error resetting Brave Rewards.  Please relaunch Brave and try again
+      </message>
     </messages>
   </release>
 </grit>
