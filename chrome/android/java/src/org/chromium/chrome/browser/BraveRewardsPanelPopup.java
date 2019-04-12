@@ -14,6 +14,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
 import android.text.Html;
 import android.text.Spanned;
@@ -448,7 +449,14 @@ public class BraveRewardsPanelPopup implements BraveRewardsObserver, BraveReward
         SetupNotificationsControls();
 
         //setting Recurrent Donations spinner
-        mTip_amount_spinner = root.findViewById(R.id.auto_tip_amount);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            mTip_amount_spinner = root.findViewById(R.id.auto_tip_amount19);
+        }
+        else {
+            mTip_amount_spinner = root.findViewById(R.id.auto_tip_amount26);
+        }
+
+        mTip_amount_spinner.setVisibility(View.VISIBLE);
         mTip_amount_spinner_data_adapter = new DonationsAdapter(ContextUtils.getApplicationContext());
         mTip_amount_spinner.setAdapter(mTip_amount_spinner_data_adapter);
         mTip_amount_spinner.setOnItemSelectedListener(
@@ -1331,14 +1339,12 @@ public class BraveRewardsPanelPopup implements BraveRewardsObserver, BraveReward
                 root.findViewById(R.id.attention_layout).setVisibility(View.VISIBLE);
                 root.findViewById(R.id.include_in_ac_layout).setVisibility(View.VISIBLE);
             }
-
-            //Temporary commented out due to dropdown spinner inflating issue on PopupWindow (API 24)
-            /*
+            
             if (mPubInReccuredDonation){
                 double amount  = mBraveRewardsNativeWorker.GetPublisherRecurrentDonationAmount(pubId);
                 UpdateRecurentDonationSpinner(amount);
                 root.findViewById(R.id.auto_tip_layout).setVisibility(View.VISIBLE);
-            }*/
+            }
         }
     }
 

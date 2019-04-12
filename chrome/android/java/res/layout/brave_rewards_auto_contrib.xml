@@ -83,7 +83,19 @@
         android:visibility="gone">
 
         <Spinner
-            android:id="@+id/auto_tip_amount"
+            android:id="@+id/auto_tip_amount19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:dropDownWidth="wrap_content"
+            android:fontFamily="sans-serif"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="end"
+            android:spinnerMode="dialog"
+            android:textSize="12sp"
+            android:visibility="gone"/>
+
+        <Spinner
+            android:id="@+id/auto_tip_amount26"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:dropDownWidth="wrap_content"
@@ -91,7 +103,8 @@
             android:layout_alignParentEnd="true"
             android:layout_gravity="end"
             android:spinnerMode="dropdown"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:visibility="gone"/>
 
         <TextView
             android:layout_height="wrap_content"
