@@ -106,6 +106,7 @@ Still reading?
     <ignore regexp="chromecast/internal"/>
     <ignore regexp="remoting/android/host/res/layout/main.xml"/>
     <ignore regexp="chrome/android/java/res/layout/brave_rewards_site_banner.xml"/>
+    <ignore regexp="chrome/android/java/res/menu/main_menu.xml"/>
     <ignore regexp="chrome/android/java/res/layout-land/brave_rewards_site_banner.xml"/>
   </issue>
   <issue id="IconColors" severity="Error">
