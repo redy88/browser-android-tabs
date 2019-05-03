@@ -112,7 +112,7 @@ void WebContentsLedgerObserver::ResourceLoadComplete(
     return;
   }
 
-  if (resource_load_info.resource_type == content::RESOURCE_TYPE_MEDIA ||
+  /*if (resource_load_info.resource_type == content::RESOURCE_TYPE_MEDIA ||
       resource_load_info.resource_type == content::RESOURCE_TYPE_XHR ||
       resource_load_info.resource_type == content::RESOURCE_TYPE_IMAGE ||
       resource_load_info.resource_type == content::RESOURCE_TYPE_SCRIPT) {
@@ -121,7 +121,7 @@ void WebContentsLedgerObserver::ResourceLoadComplete(
     brave_rewards_service_->OnXHRLoad(SessionTabHelper::IdForTab(web_contents_), 
       resource_load_info.url, render_frame_host->GetLastCommittedURL(), 
       resource_load_info.referrer);
-  }
+  }*/
 }
 
 bool WebContentsLedgerObserver::IsBeingDestroyed() {
