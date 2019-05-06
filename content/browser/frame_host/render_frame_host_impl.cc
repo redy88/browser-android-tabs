@@ -893,7 +893,6 @@ RenderFrameHostImpl::RenderFrameHostImpl(SiteInstance* site_instance,
                                    : frame_tree_node_->opener();
   if (frame_owner)
     CSPContext::SetSelf(frame_owner->current_origin());
-}
 
 #if defined(OS_ANDROID)
   if (NeedPlayVideoInBackgroundForActiveProfile()) {
@@ -6575,8 +6574,6 @@ void RenderFrameHostImpl::SendCommitFailedNavigation(
   }
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 // Called when the renderer navigates.  For every frame loaded, we'll get this
 // notification containing parameters identifying the navigation.
 void RenderFrameHostImpl::DidCommitNavigation(
