@@ -542,7 +542,6 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
         }*/
 
         createNotificationChannel();
-        createAdsNotificationChannel();
         setupBraveSetDefaultBrowserNotification();
     }
 
@@ -555,23 +554,6 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
             String description = "Notification channel for Brave Browser";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
-
-    private void createAdsNotificationChannel() {
-        Context context = ContextUtils.getApplicationContext();
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Brave Browser for Ads";
-            String description = "Ads notification channel for Brave Browser";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel("com.brave.browser.ads", name, importance);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
