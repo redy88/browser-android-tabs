@@ -40,6 +40,9 @@ public class TabSwitcherBottomToolbarCoordinator implements View.OnLongClickList
     /** The menu button that lives in the tab switcher bottom toolbar. */
     private final MenuButton mMenuButton;
 
+    /** Wrapper. */
+    View mNewTabButtonWrapper;
+
     final Context context = ContextUtils.getApplicationContext();
 
     /**
@@ -89,16 +92,21 @@ public class TabSwitcherBottomToolbarCoordinator implements View.OnLongClickList
         mCloseAllTabsButton.setVisibility(View.INVISIBLE);
 
         mNewTabButton = root.findViewById(R.id.tab_switcher_new_tab_button);
+        mNewTabButton.setWrapperView(root.findViewById(R.id.new_tab_button_wrapper));
         mNewTabButton.setOnClickListener(newTabClickListener);
-        //mNewTabButton.setWrapperView(root.findViewById(R.id.new_tab_button_wrapper));
-        mNewTabButton.setOnLongClickListener(this);
         mNewTabButton.setIncognitoStateProvider(incognitoStateProvider);
         mNewTabButton.setThemeColorProvider(themeColorProvider);
 
         mMenuButton = root.findViewById(R.id.menu_button_wrapper);
-        //mMenuButton.setWrapperView(root.findViewById(R.id.labeled_menu_button_wrapper));
+        mMenuButton.setWrapperView(root.findViewById(R.id.labeled_menu_button_wrapper));
         mMenuButton.setThemeColorProvider(themeColorProvider);
         mMenuButton.setAppMenuButtonHelper(menuButtonHelper);
+
+        // Set long click event
+        mNewTabButtonWrapper = root.findViewById(R.id.new_tab_button_wrapper);
+        if (mNewTabButtonWrapper != null) {
+            mNewTabButtonWrapper.setOnLongClickListener(this);
+        }
     }
 
     @Override
@@ -106,8 +114,8 @@ public class TabSwitcherBottomToolbarCoordinator implements View.OnLongClickList
         String description = "";
         Resources resources = context.getResources();
 
-        if (v == mNewTabButton) {
-            description = description = resources.getString(R.string.accessibility_new_tab_page);
+        if (v == mNewTabButtonWrapper) {
+            description = resources.getString(R.string.accessibility_new_tab_page);
         }
 
         return AccessibilityUtil.showAccessibilityToast(context, v, description);
