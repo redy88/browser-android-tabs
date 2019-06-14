@@ -4567,13 +4567,13 @@ as your default browser.
         You've already set a default browser.
 You may change default browser in your app settings.
       </message>
-      <message name="IDS_BRAVE_DEFAULT_BROWSER_NOTIFICATION_BODY" desc="Default browser notification body">
+      <!--<message name="IDS_BRAVE_DEFAULT_BROWSER_NOTIFICATION_BODY" desc="Default browser notification body">
         Save battery and load web pages faster. Make Brave your default Browser. From the Brave menu tap "Set as default browser"
       </message>
       <message name="IDS_BRAVE_DEFAULT_BROWSER_EXISTING_NOTIFICATION_BODY" desc="Default browser notification body">
         Make Brave your default web browser
 Save battery and load web pages faster
-      </message>
+      </message>-->
       <message name="IDS_BRAVE_SET_DEFAULT_BROWSER" desc="Menu item for opening the 'Setting default browser' page.">
         Set as default browser
       </message>
@@ -4857,6 +4857,15 @@ content creators you love.
       </message>
       <message name="IDS_RESET_BRAVE_REWARDS_ERROR_DESCRIPTION" desc="Description for Brave Rewards reset error dialog.">
         There was an error resetting Brave Rewards.  Please relaunch Brave and try again
+      </message>
+      <message name="IDS_BRAVE_IM_IN_TEXT" desc="I'm in! text for positive buttons.">
+        I'm in!
+      </message>
+      <message name="IDS_BRAVE_DEFAULT_BROWSER_TITLE" desc="Title for default browser notification.">
+        Brave is Lightning Fast
+      </message>
+      <message name="IDS_BRAVE_DEFAULT_BROWSER_BODY" desc="Body for default browser notification.">
+        Make Brave your default browser!
       </message>
     </messages>
   </release>

@@ -262,4 +262,8 @@ content creators you love.</string>
 
     <string name="brave_sync_official">Brave Sync</string>
     <string name="prefs_sync_official">Sync</string>
+
+    <string name="brave_im_in_text">I'm in!</string>
+    <string name="brave_default_browser_title">Brave is Lightning Fast</string>
+    <string name="brave_default_browser_body">Make Brave your default browser!</string>
 </resources>
