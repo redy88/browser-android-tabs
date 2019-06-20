@@ -6,9 +6,19 @@
 
 package org.chromium.chrome.browser.notifications;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 
 import org.chromium.base.annotations.CalledByNative;
+import org.chromium.base.ContextUtils;
 import org.chromium.chrome.browser.notifications.channels.ChannelDefinitions;
+import org.chromium.chrome.browser.BraveRewardsHelper;
+import org.chromium.chrome.browser.ChromeTabbedActivity;
 
 /**
  * This class provides the Brave Ads related methods for the native library
@@ -17,6 +27,23 @@ import org.chromium.chrome.browser.notifications.channels.ChannelDefinitions;
 public abstract class BraveAds {
     @CalledByNative
     public static String getBraveAdsChannelId() {
-        return ChannelDefinitions.ChannelId.BRAVE_ADS;
+      return ChannelDefinitions.ChannelId.BRAVE_ADS;
+    }
+
+    @CalledByNative
+    public static void openSystemNotifPrefs() {
+      ChromeTabbedActivity activity =
+          BraveRewardsHelper.GetChromeTabbedActivity();
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && activity != null) {
+        Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+        intent.putExtra(Settings.EXTRA_APP_PACKAGE,
+            ContextUtils.getApplicationContext().getPackageName());
+        activity.startActivity(intent);
+      } else {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.parse("package:" +
+            ContextUtils.getApplicationContext().getPackageName()));
+        activity.startActivity(intent);
+      }
     }
 }
